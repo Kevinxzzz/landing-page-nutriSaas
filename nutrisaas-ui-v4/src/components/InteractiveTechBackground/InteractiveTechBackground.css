@@ -1,0 +1,26 @@
+/* ─── Interactive Tech Background ──────────────────────────────── */
+.itb {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.itb__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  /* The secret sauce: forces the small canvas to render as sharp blocks */
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.itb__content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+}

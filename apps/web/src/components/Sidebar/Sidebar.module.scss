@@ -1,0 +1,173 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: $sidebar-width;
+  height: 100vh;
+  background: $white;
+  border-right: 1px solid $gray-100;
+  display: flex;
+  flex-direction: column;
+  z-index: $z-sticky;
+  @include scrollbar;
+  overflow-y: auto;
+
+  @media (max-width: $breakpoint-md) {
+    z-index: calc(#{$z-overlay} + 1); // acima do overlay
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: none;
+  }
+}
+
+// Estado aberto no mobile
+.sidebarOpen {
+  @media (max-width: $breakpoint-md) {
+    transform: translateX(0);
+    box-shadow: $shadow-xl;
+  }
+}
+
+// Botão fechar (X) — oculto no desktop
+.closeBtn {
+  @include flex-center;
+  display: none; // deve vir DEPOIS do mixin para sobrescrever o display:flex dele
+  margin-left: auto;
+  width: 32px;
+  height: 32px;
+  border-radius: $radius-md;
+  color: $gray-400;
+  flex-shrink: 0;
+  transition: all $transition-smooth;
+
+  &:hover {
+    background: $gray-100;
+    color: $gray-700;
+  }
+
+  @media (max-width: #{$breakpoint-md}) {
+    display: flex;
+  }
+
+  @media (min-width: #{$breakpoint-md + 1}) {
+    display: none !important;
+  }
+}
+
+// Logo
+.logo {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  padding: $space-5 $space-5;
+  border-bottom: 1px solid $gray-100;
+}
+
+.logoIcon {
+  @include avatar(32px);
+  font-size: $font-size-sm;
+  border-radius: $radius-md;
+  letter-spacing: 0;
+}
+
+.logoText {
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  color: $gray-900;
+  letter-spacing: -0.02em;
+}
+
+// Navigation
+.nav {
+  flex: 1;
+  padding: $space-4 $space-3;
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+}
+
+.navLabel {
+  @include label;
+  padding: 0 $space-3;
+  margin-bottom: $space-2;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  padding: $space-2 $space-3;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $gray-500;
+  transition: all $transition-smooth;
+
+  svg {
+    flex-shrink: 0;
+    color: $gray-400;
+    transition: color $transition-smooth;
+  }
+
+  span {
+    @include truncate;
+  }
+
+  &:hover {
+    color: $gray-800;
+    background: $gray-50;
+
+    svg {
+      color: $gray-600;
+    }
+  }
+
+  &.active {
+    color: $primary-dark;
+    background: $primary-50;
+    font-weight: $font-weight-semibold;
+
+    svg {
+      color: $primary;
+    }
+  }
+}
+
+// User section
+.userSection {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  padding: $space-4 $space-5;
+  border-top: 1px solid $gray-100;
+  margin-top: auto;
+}
+
+.userAvatar {
+  @include avatar(34px);
+  font-size: $font-size-2xs;
+  border-radius: $radius-md;
+  background: linear-gradient(135deg, $secondary, $secondary-dark);
+}
+
+.userInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.userName {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $gray-800;
+  @include truncate;
+  text-transform: capitalize;
+}
+
+.userRole {
+  font-size: $font-size-2xs;
+  color: $gray-400;
+  @include truncate;
+}

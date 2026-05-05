@@ -1,0 +1,29 @@
+@use '../../../styles/variables' as *;
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 999px;
+  font-size: $font-size-xs;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  cursor: pointer;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.AGENDADO { background: #dbeafe; color: #1d4ed8; }
+.CONFIRMOU { background: #d1fae5; color: #047857; }
+.PRESENTE { background: #d1fae5; color: #065f46; }
+.ENCAIXE { background: #fef3c7; color: #92400e; }
+.CANCELADO { background: #fee2e2; color: #991b1b; }
+.NAO_COMPARECEU { background: #fee2e2; color: #991b1b; }
+.REALIZADO { background: #e0e7ff; color: #3730a3; }
+.DESISTIU { background: #f3f4f6; color: #6b7280; }
+.REMARCOU { background: #fef3c7; color: #92400e; }

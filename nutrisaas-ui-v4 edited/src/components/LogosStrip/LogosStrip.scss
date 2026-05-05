@@ -1,0 +1,60 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.logos-strip {
+  padding-block: $space-6;
+  background: $white;
+  border-top: 1px solid $color-border;
+  border-bottom: 1px solid $color-border;
+  overflow: hidden;
+
+  &__inner {
+    @include container;
+  }
+
+  &__label {
+    text-align: center;
+    font-size: $text-xs;
+    text-transform: uppercase;
+    letter-spacing: $ls-widest;
+    color: $color-text-4;
+    font-weight: $fw-medium;
+    margin-bottom: $space-6;
+  }
+
+  &__track-wrapper {
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
+  }
+
+  &__track {
+    @include flex(row, center, flex-start, $space-12);
+    width: max-content;
+    animation: marquee 22s linear infinite;
+
+    &:hover { animation-play-state: paused; }
+  }
+
+  &__item {
+    @include flex-center;
+    gap: $space-2;
+    font-size: $text-sm;
+    font-weight: $fw-semibold;
+    color: $color-text-3;
+    white-space: nowrap;
+    opacity: 0.65;
+    transition: $transition-fast;
+    flex-shrink: 0;
+
+    &:hover { opacity: 1; color: $color-primary; }
+  }
+
+  &__item-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: $radius-md;
+    background: $gray-100;
+    @include flex-center;
+    font-size: $text-base;
+  }
+}

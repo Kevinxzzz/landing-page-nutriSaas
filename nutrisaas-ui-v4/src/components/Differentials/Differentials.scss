@@ -1,0 +1,124 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.differentials {
+  @include section;
+  background: $color-bg-alt;
+  border-top: 1px solid $color-border;
+  border-bottom: 1px solid $color-border;
+
+  &__inner { @include container; }
+
+  &__header {
+    @include section-header;
+  }
+
+  &__badge { @include badge; }
+
+  &__title {
+    @include heading-2;
+    text-wrap: balance;
+    em { @include text-gradient-green; font-style: normal; }
+  }
+
+  &__layout {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: $space-6;
+
+    @include bp-max(lg) { grid-template-columns: 1fr; }
+  }
+
+  // Featured big card
+  &__featured {
+    @include card;
+    padding: $space-10;
+    border-top: 3px solid $color-primary;
+    @include flex(column, flex-start, flex-start, $space-6);
+    transition: $transition-base;
+
+    &:hover { box-shadow: $shadow-xl; }
+  }
+
+  &__featured-badge { @include badge; }
+
+  &__featured-title {
+    @include heading-3;
+    em { @include text-gradient-green; font-style: normal; }
+  }
+
+  &__featured-desc {
+    font-size: $text-base;
+    color: $color-text-3;
+    line-height: $lh-relaxed;
+  }
+
+  &__featured-list {
+    @include flex(column, flex-start, flex-start, $space-3);
+    width: 100%;
+  }
+
+  &__featured-item {
+    @include flex(row, center, flex-start, $space-3);
+    font-size: $text-sm;
+    color: $color-text-2;
+  }
+
+  &__featured-check {
+    width: 22px;
+    height: 22px;
+    border-radius: $radius-full;
+    background: $color-badge-bg;
+    border: 1.5px solid $color-badge-border;
+    @include flex-center;
+    font-size: 11px;
+    color: $color-primary;
+    font-weight: $fw-bold;
+    flex-shrink: 0;
+  }
+
+  // Right cards stack
+  &__cards {
+    @include flex(column, stretch, flex-start, $space-4);
+  }
+
+  &__card {
+    @include card;
+    padding: $space-5;
+    @include flex(row, flex-start, flex-start, $space-4);
+    transition: $transition-base;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: $shadow-lg;
+      border-color: $emerald-200;
+    }
+  }
+
+  &__card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: $radius-xl;
+    background: $color-badge-bg;
+    border: 1.5px solid $color-badge-border;
+    @include flex-center;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  &__card-body {
+    @include flex(column, flex-start, flex-start, $space-1);
+  }
+
+  &__card-title {
+    font-size: $text-base;
+    font-weight: $fw-bold;
+    color: $color-text;
+  }
+
+  &__card-desc {
+    font-size: $text-sm;
+    color: $color-text-3;
+    line-height: $lh-normal;
+  }
+}

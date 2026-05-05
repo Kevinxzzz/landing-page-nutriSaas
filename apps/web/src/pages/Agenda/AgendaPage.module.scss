@@ -1,0 +1,73 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.header {
+  @include flex-between;
+  margin-bottom: 1.5rem;
+}
+
+.dateNav {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.dateBtn {
+  @include flex-center;
+  width: 36px;
+  height: 36px;
+  border-radius: $radius-sm;
+  border: 1px solid $gray-300;
+  color: $gray-600;
+  background: $white;
+  font-size: 1.125rem;
+
+  &:hover {
+    background: $gray-100;
+  }
+}
+
+.dateInput {
+  @include input-base;
+  width: auto;
+  font-weight: 600;
+}
+
+.todayBtn {
+  @include btn($white, $gray-700);
+  border: 1px solid $gray-300;
+  font-size: $font-size-xs;
+  padding: 0.5rem 0.875rem;
+
+  &:hover {
+    background: $gray-50;
+  }
+}
+
+.agendarBtn {
+  @include btn;
+}
+
+.stats {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.stat {
+  @include card;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: $font-size-sm;
+
+  strong {
+    font-size: $font-size-lg;
+    color: $gray-800;
+  }
+
+  span {
+    color: $gray-500;
+  }
+}

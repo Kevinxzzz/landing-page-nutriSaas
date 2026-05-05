@@ -1,0 +1,112 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.cta-final {
+  @include section;
+  position: relative;
+  overflow: hidden;
+  background: $color-bg-alt;
+  border-top: 1px solid $color-border;
+
+  &__bg-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 500px;
+    background: radial-gradient(ellipse, rgba(5, 150, 105, 0.07) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  &__inner {
+    @include container;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__box {
+    max-width: 840px;
+    margin-inline: auto;
+    background: $white;
+    border: 1px solid $color-border;
+    border-radius: $radius-3xl;
+    box-shadow: $shadow-2xl;
+    padding: $space-20 $space-16;
+    text-align: center;
+    @include flex(column, center, center, $space-8);
+    position: relative;
+    overflow: hidden;
+
+    // Top green gradient bar
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, $emerald-400, $emerald-600, $emerald-400);
+      background-size: 200% 100%;
+      animation: shimmer 3s ease-in-out infinite;
+    }
+
+    @include bp-max(md) {
+      padding: $space-12 $space-8;
+    }
+  }
+
+  &__badge { @include badge; }
+
+  &__title {
+    @include heading-display;
+    max-width: 640px;
+    text-wrap: balance;
+
+    em { @include text-gradient-green; font-style: normal; }
+  }
+
+  &__subtitle {
+    font-size: $text-xl;
+    color: $color-text-3;
+    max-width: 480px;
+    text-wrap: balance;
+    line-height: $lh-relaxed;
+  }
+
+  &__actions {
+    @include flex(row, center, center, $space-4);
+    flex-wrap: wrap;
+  }
+
+  &__btn-primary {
+    @include btn-primary;
+    padding: 1rem 2.5rem;
+    font-size: $text-base;
+    animation: glow-pulse 2.5s ease-in-out infinite;
+  }
+
+  &__btn-secondary {
+    @include btn-outline;
+    padding: 1rem 2rem;
+    font-size: $text-base;
+  }
+
+  &__trust {
+    @include flex(row, center, center, $space-6);
+    flex-wrap: wrap;
+    padding-top: $space-6;
+    border-top: 1px solid $color-border;
+    width: 100%;
+  }
+
+  &__trust-item {
+    @include flex(row, center, center, $space-2);
+    font-size: $text-sm;
+    color: $color-text-3;
+    font-weight: $fw-medium;
+
+    &::before {
+      color: $color-primary;
+      font-size: $text-base;
+    }
+  }
+}

@@ -1,0 +1,116 @@
+@use "../../../../styles/variables" as *;
+@use "../../../../styles/mixins" as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 7, 18, 0.45);
+  @include flex-center;
+  z-index: $z-modal;
+  padding: $space-4;
+  backdrop-filter: blur(2px);
+}
+
+.modal {
+  @include card;
+  width: 100%;
+  max-width: 500px;
+  max-height: 86vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba($primary, 0.18);
+  animation: modalEnter 0.25s ease-out;
+}
+
+@keyframes modalEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modalHeader {
+  @include flex-between;
+  padding: $space-4 $space-5;
+  border-bottom: 1px solid rgba($primary, 0.18);
+  background: linear-gradient(
+    180deg,
+    rgba($primary, 0.14) 0%,
+    rgba($primary, 0.06) 100%
+  );
+
+  h3 {
+    @include heading-md;
+    margin: 0;
+    color: $primary-dark;
+    display: inline-flex;
+    align-items: center;
+    gap: $space-2;
+  }
+}
+
+.modalBody {
+  padding: $space-5;
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.infoBox {
+  border-left: 3px solid rgba($primary, 0.6);
+  background: rgba($primary, 0.03);
+  border-radius: $radius-sm;
+  padding: $space-3 $space-4;
+  
+  p {
+    margin: 0;
+    color: $gray-700;
+    font-size: $font-size-sm;
+    line-height: $line-height-normal;
+  }
+}
+
+.dateInfo {
+  font-size: $font-size-xs;
+  color: $gray-500;
+  margin-top: $space-1;
+  display: block;
+}
+
+.modalFooter {
+  padding: 0 $space-5 $space-5;
+  display: flex;
+  gap: $space-3;
+  justify-content: flex-end;
+}
+
+.continueBtn {
+  @include btn($primary, $white);
+  padding: $space-2 $space-5;
+}
+
+.discardBtn {
+  @include btn-ghost($danger);
+  padding: $space-2 $space-4;
+  border-color: rgba($danger, 0.2);
+
+  &:hover {
+    background: rgba($danger, 0.05);
+    border-color: $danger;
+  }
+}
+
+@media (max-width: 480px) {
+  .modalFooter {
+    flex-direction: column;
+    
+    button {
+      width: 100%;
+    }
+  }
+}

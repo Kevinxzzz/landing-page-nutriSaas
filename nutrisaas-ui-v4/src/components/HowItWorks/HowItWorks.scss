@@ -1,0 +1,346 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.how-it-works-v2 {
+  position: relative;
+  height: 400vh; // Defines scroll duration
+  background: #f9fafb; // Bento neutral base
+  border-top: 1px solid rgba(0,0,0,0.04);
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+
+  &__sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  &__bg {
+    position: absolute !important;
+    inset: 0;
+    z-index: 0;
+    pointer-events: auto; // Needs to capture mouse for the trail effect
+  }
+
+  &__inner {
+    @include container;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: $space-16;
+    position: relative;
+    z-index: 2;
+
+    @include bp-max(lg) {
+      flex-direction: column;
+      gap: $space-8;
+      padding-top: $navbar-height;
+    }
+  }
+
+  // --- Left Side: Text + Vertical Track ---
+  &__left {
+    flex: 0 0 40%;
+    @include flex(column, flex-start, flex-start, $space-8);
+    
+    @include bp-max(lg) {
+      flex: 1 1 auto;
+      width: 100%;
+      align-items: center;
+      text-align: center;
+      gap: $space-6;
+    }
+  }
+
+  &__badge {
+    @include badge;
+    background: white;
+    box-shadow: $shadow-sm;
+    color: $color-primary;
+  }
+
+  &__title {
+    @include heading-2;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    font-weight: 800;
+    color: $color-text;
+    max-width: 600px;
+
+    span {
+      @include text-gradient-green;
+      display: block;
+    }
+
+    @include bp-max(lg) {
+      font-size: 2.5rem;
+    }
+  }
+
+  &__content-wrapper {
+    display: flex;
+    align-items: center;
+    gap: $space-12;
+    margin-top: $space-4;
+
+    @include bp-max(lg) {
+      margin-top: $space-8;
+    }
+  }
+
+  &__topics {
+    display: flex;
+    flex-direction: column;
+    gap: $space-12;
+    justify-content: space-between;
+    height: 300px; // Matches track-wrapper
+    padding: $space-4 0;
+  }
+
+  &__topic {
+    font-size: $text-xl;
+    font-weight: 700;
+    color: $color-text-3;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    position: relative;
+    white-space: nowrap;
+
+    &.is-active {
+      color: $emerald-500;
+      transform: translateX(10px);
+      filter: drop-shadow(0 0 8px rgba($emerald-500, 0.3));
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: -15px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 6px;
+        height: 6px;
+        background: $emerald-500;
+        border-radius: 50%;
+      }
+    }
+
+    @include bp-max(lg) {
+      font-size: $text-base;
+    }
+  }
+
+  &__track-wrapper {
+    height: 300px;
+    width: 6px;
+    background: rgba(0,0,0,0.06);
+    border-radius: $radius-full;
+    position: relative;
+    overflow: hidden;
+
+    @include bp-max(lg) {
+      display: none;
+    }
+  }
+
+  &__track-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(180deg, $emerald-400, $emerald-600);
+    box-shadow: 0 0 15px rgba($emerald-400, 0.5);
+    border-radius: $radius-full;
+    will-change: height;
+  }
+
+  // --- Right Side: Single Card View ---
+  &__right {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__card-viewer {
+    position: relative;
+    width: 100%;
+    max-width: 580px;
+    height: 520px; // Altura fixa para manter o container estável e cartas absolutas
+
+    @include bp-max(lg) {
+      height: 480px;
+    }
+  }
+
+  &__card {
+    position: absolute;
+    inset: 0; // Ocupa todo o card-viewer
+    background: $white;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 2.5rem; // Bento 2.0 aesthetics
+    padding: $space-10;
+    box-shadow: 0 20px 40px -15px rgba(0,0,0,0.05);
+    @include flex(column, stretch, flex-start, $space-8);
+    will-change: transform, opacity;
+
+    @include bp-max(lg) {
+      padding: $space-8 $space-6;
+      border-radius: 1.5rem;
+    }
+  }
+
+  &__card-header {
+    @include flex-between;
+    width: 100%;
+  }
+
+  &__card-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 1.25rem;
+    background: $emerald-50;
+    @include flex-center;
+    color: $color-primary;
+    font-size: 2rem;
+    border: 1px solid rgba($color-primary, 0.15);
+  }
+
+  &__card-number {
+    font-size: 1.5rem;
+    font-weight: $fw-black;
+    color: rgba(0,0,0,0.06);
+    letter-spacing: -0.05em;
+  }
+
+  &__card-body {
+    @include flex(column, flex-start, flex-start, $space-3);
+  }
+
+  &__card-title {
+    font-size: $text-2xl;
+    font-weight: $fw-bold;
+    color: $color-text;
+    letter-spacing: -0.02em;
+  }
+
+  &__card-desc {
+    font-size: $text-base;
+    color: $color-text-3;
+    line-height: 1.6;
+  }
+
+  &__card-visual {
+    width: 100%;
+    height: 180px;
+    background: #f8fafc;
+    border-radius: 1rem;
+    border: 1px dashed rgba(0,0,0,0.1);
+    @include flex-center;
+    overflow: hidden;
+    position: relative;
+    margin-top: auto; // empurra pro fundo do card
+  }
+}
+
+// --- Micro Animations ---
+.hiw-micro {
+  width: 100%;
+  height: 100%;
+  @include flex-center;
+  position: relative;
+
+  &--clinic {
+    flex-direction: column;
+    gap: 12px;
+    width: 200px;
+
+    .hiw-micro__header {
+      width: 100%;
+      height: 24px;
+      background: white;
+      border-radius: 6px;
+      box-shadow: $shadow-sm;
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+      gap: 6px;
+    }
+
+    .hiw-micro__dot { width: 8px; height: 8px; border-radius: 50%; background: $emerald-400; }
+    .hiw-micro__line { height: 4px; background: $gray-200; border-radius: 2px; }
+
+    .hiw-micro__blocks {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+      height: 60px;
+    }
+    
+    .hiw-micro__block {
+      flex: 1;
+      background: white;
+      border-radius: 6px;
+      box-shadow: $shadow-sm;
+      border-top: 2px solid $emerald-400;
+    }
+  }
+
+  &--users {
+    flex-direction: column;
+    gap: 16px;
+    width: 200px;
+    
+    .hiw-micro__avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      border: 3px solid white;
+      img { width: 100%; height: 100%; object-fit: cover; }
+    }
+
+    .hiw-micro__lines {
+      @include flex(column, center, center, 8px);
+      width: 100%;
+      .hiw-micro__line { height: 6px; background: $gray-200; border-radius: 3px; }
+    }
+  }
+
+  &--records {
+    width: 240px;
+    position: relative;
+    height: 100%;
+
+    .hiw-micro__status, .hiw-micro__check {
+      background: white;
+      padding: 12px 16px;
+      border-radius: 12px;
+      box-shadow: 0 12px 24px -8px rgba(0,0,0,0.1);
+      @include flex(row, center, flex-start, 8px);
+      font-weight: 600;
+      font-size: 0.875rem;
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 180px;
+      margin-left: -90px;
+      margin-top: -24px;
+    }
+
+    .hiw-micro__status {
+      color: $color-text-2;
+      svg { color: $gray-400; font-size: 1.25rem; }
+    }
+
+    .hiw-micro__check {
+      color: $emerald-700;
+      border: 1px solid $emerald-100;
+      svg { color: $emerald-500; font-size: 1.25rem; }
+    }
+  }
+}

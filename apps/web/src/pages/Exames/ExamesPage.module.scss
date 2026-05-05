@@ -1,0 +1,274 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.page {
+  @include flex-col;
+  gap: $space-6;
+}
+
+// Tabs
+.tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid $gray-200;
+}
+
+.tab {
+  padding: $space-3 $space-5;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $gray-500;
+  border: none;
+  background: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  cursor: pointer;
+  transition: all $transition-smooth;
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+
+  &:hover {
+    color: $gray-700;
+  }
+
+  &.active {
+    color: $primary;
+    border-bottom-color: $primary;
+  }
+}
+
+.tabCount {
+  @include badge;
+  font-size: $font-size-2xs;
+  padding: 0.1rem 0.45rem;
+}
+
+// Toolbar
+.toolbar {
+  @include flex-between;
+  gap: $space-4;
+  flex-wrap: wrap;
+}
+
+.searchWrapper {
+  position: relative;
+  flex: 1;
+  max-width: 400px;
+  min-width: 200px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: $space-3;
+  top: 50%;
+  transform: translateY(-50%);
+  color: $gray-400;
+  pointer-events: none;
+}
+
+.searchInput {
+  @include input-base;
+  padding-left: 2.25rem;
+}
+
+.addBtn {
+  @include btn;
+}
+
+// Table
+.tableCard {
+  @include card;
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    background: $gray-50;
+    padding: $space-3 $space-4;
+    text-align: left;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    color: $gray-500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid $gray-200;
+  }
+
+  td {
+    padding: $space-3 $space-4;
+    font-size: $font-size-sm;
+    color: $gray-700;
+    border-bottom: 1px solid $gray-100;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  tbody tr {
+    transition: background $transition-fast;
+
+    &:hover td {
+      background: $gray-50;
+    }
+  }
+}
+
+.codeCell {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: $font-size-xs;
+  color: $gray-600;
+  font-weight: $font-weight-medium;
+}
+
+.unitBadge {
+  @include badge($gray-100, $gray-600);
+}
+
+.valueCell {
+  font-variant-numeric: tabular-nums;
+}
+
+// Actions
+.actions {
+  display: flex;
+  gap: $space-2;
+}
+
+.actionBtn {
+  padding: $space-1 + 0.05rem;
+  border-radius: $radius-sm;
+  color: $gray-500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all $transition-fast;
+
+  &:hover {
+    background: $gray-100;
+    color: $gray-800;
+  }
+
+  &.danger:hover {
+    background: $danger-light;
+    color: $danger;
+  }
+}
+
+// Form
+.formCard {
+  @include card;
+  padding: $space-6;
+  margin-bottom: $space-4;
+}
+
+.formTitle {
+  @include heading-md;
+  margin-bottom: $space-4;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: $space-4;
+  margin-bottom: $space-4;
+}
+
+.field {
+  @include flex-col;
+  gap: $space-1 + 0.1rem;
+
+  label {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $gray-700;
+  }
+
+  input,
+  select {
+    @include input-base;
+  }
+}
+
+.formActions {
+  display: flex;
+  gap: $space-2;
+  justify-content: flex-end;
+}
+
+.cancelBtn {
+  @include btn-ghost;
+}
+
+.submitBtn {
+  @include btn;
+}
+
+// States
+.empty {
+  padding: $space-12 $space-6;
+  text-align: center;
+  color: $gray-400;
+  font-size: $font-size-sm;
+
+  p {
+    margin-top: $space-2;
+  }
+}
+
+.emptyState {
+  padding: $space-12 $space-8;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-3;
+}
+
+.emptyTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $gray-700;
+}
+
+.emptyDesc {
+  font-size: $font-size-sm;
+  color: $gray-400;
+  max-width: 480px;
+  line-height: 1.6;
+}
+
+.emptyBtn {
+  @include btn;
+  margin-top: $space-2;
+}
+
+.emptyIcon {
+  color: $gray-300;
+  margin-bottom: $space-2;
+}
+
+.footer {
+  padding: $space-3 $space-4;
+  border-top: 1px solid $gray-100;
+  font-size: $font-size-xs;
+  color: $gray-400;
+  background: $gray-50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.loading {
+  @include flex-center;
+  padding: $space-12;
+  color: $gray-400;
+  font-size: $font-size-sm;
+}

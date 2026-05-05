@@ -1,0 +1,142 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.header {
+  @include flex-between;
+  position: fixed;
+  top: 0;
+  left: $sidebar-width;
+  right: 0;
+  height: $header-height;
+  padding: 0 $space-6;
+  background: rgba($white, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid $gray-100;
+  z-index: $z-sticky;
+
+  @media (max-width: $breakpoint-md) {
+    left: 0;
+    padding: 0 $space-4;
+  }
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+}
+
+.title {
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $gray-900;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: $font-size-2xs;
+  color: $gray-400;
+  margin-top: 1px;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+}
+
+// Botão hambúrguer — oculto no desktop
+.menuBtn {
+  @include flex-center;
+  display: none; // deve vir DEPOIS do mixin para sobrescrever o display:flex dele
+  width: 36px;
+  height: 36px;
+  border-radius: $radius-md;
+  color: $gray-600;
+  transition: all $transition-smooth;
+  flex-shrink: 0;
+
+  &:hover {
+    background: $gray-100;
+    color: $gray-900;
+  }
+
+  @media (max-width: #{$breakpoint-md}) {
+    display: flex;
+  }
+
+  @media (min-width: #{$breakpoint-md + 1}) {
+    display: none !important;
+  }
+}
+
+.iconBtn {
+  @include flex-center;
+  width: 34px;
+  height: 34px;
+  border-radius: $radius-md;
+  color: $gray-400;
+  transition: all $transition-smooth;
+
+  &:hover {
+    background: $gray-50;
+    color: $gray-700;
+  }
+}
+
+.divider {
+  width: 1px;
+  height: 24px;
+  background: $gray-200;
+}
+
+.userChip {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  padding: $space-1 $space-3 $space-1 $space-2;
+  background: $gray-50;
+  border-radius: $radius-full;
+
+  // Oculta e-mail no mobile para não poluir o header
+  @media (max-width: $breakpoint-md) {
+    display: none;
+  }
+}
+
+.userDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: $success;
+  flex-shrink: 0;
+}
+
+.userEmail {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  color: $gray-600;
+}
+
+.logoutBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-1;
+  padding: $space-2 $space-3;
+  border-radius: $radius-md;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  color: $gray-500;
+  transition: all $transition-smooth;
+
+  span {
+    @media (max-width: $breakpoint-md) {
+      display: none;
+    }
+  }
+
+  &:hover {
+    background: $danger-light;
+    color: $danger;
+  }
+}

@@ -1,0 +1,224 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.navbar {
+  position: fixed;
+  top: 0;
+  inset-inline: 0;
+  z-index: 100;
+  height: $navbar-height;
+  transition: $transition-base;
+
+  // Transparent by default, glass on scroll
+  &--scrolled {
+    @include glass;
+    box-shadow: 0 1px 0 $color-border, $shadow-sm;
+  }
+
+  &:not(&--scrolled) {
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid transparent;
+  }
+
+  &__inner {
+    @include container;
+    @include flex-between;
+    height: 100%;
+    gap: $space-8;
+  }
+
+  // ---- Logo ----
+  &__logo {
+    @include flex(row, center, flex-start, $space-3);
+    flex-shrink: 0;
+    text-decoration: none;
+  }
+
+  &__logo-mark {
+    width: 38px;
+    height: 38px;
+    background: $color-primary;
+    border-radius: $radius-lg;
+    @include flex-center;
+    font-size: $text-lg;
+    font-weight: $fw-black;
+    color: $white;
+    letter-spacing: -0.04em;
+    box-shadow: $shadow-green;
+    flex-shrink: 0;
+  }
+
+  &__logo-text {
+    font-size: $text-xl;
+    font-weight: $fw-bold;
+    color: $color-text;
+    letter-spacing: $ls-snug;
+
+    span { color: $color-primary; }
+  }
+
+  // ---- Nav Menu ----
+  &__menu {
+    @include flex(row, center, center, $space-1);
+    flex: 1;
+
+    @include bp-max(lg) { display: none; }
+  }
+
+  &__link {
+    @include btn-ghost;
+    font-size: $text-sm;
+    font-weight: $fw-medium;
+    padding: $space-2 $space-4;
+    border-radius: $radius-lg;
+    color: $color-text-2;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      left: 50%;
+      width: 0;
+      height: 1.5px;
+      background: $color-primary;
+      transform: translateX(-50%);
+      transition: width $duration-300 $ease-out;
+      border-radius: $radius-full;
+    }
+
+    &:hover {
+      color: $color-primary;
+      background: $emerald-50;
+
+      &::after { width: 60%; }
+    }
+  }
+
+  // ---- Actions ----
+  &__actions {
+    @include flex(row, center, flex-end, $space-3);
+    flex-shrink: 0;
+
+    @include bp-max(lg) { display: none; }
+  }
+
+  &__btn-login {
+    @include btn-ghost;
+    font-size: $text-sm;
+    padding: $space-2 $space-5;
+    color: $color-text-2;
+  }
+
+  &__btn-cta {
+    @include btn-primary;
+    font-size: $text-sm;
+    padding: $space-2 $space-6;
+  }
+
+  // ---- Hamburger ----
+  &__hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    padding: $space-2;
+    border-radius: $radius-md;
+    transition: $transition-fast;
+
+    @include bp-max(lg) { display: flex; }
+
+    span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: $color-text-2;
+      border-radius: $radius-full;
+      transition: $transition-base;
+      transform-origin: center;
+    }
+
+    &--open {
+      background: $emerald-50;
+      span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+      span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    }
+  }
+
+  // ---- Mobile menu ----
+  &__mobile {
+    position: fixed;
+    inset: $navbar-height 0 0 0;
+    background: $white;
+    z-index: 99;
+    padding: $space-6 $container-pad;
+    @include flex(column, stretch, flex-start, $space-2);
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform $duration-300 $ease-out, opacity $duration-300 $ease-out;
+    border-top: 1px solid $color-border;
+    overflow-y: auto;
+
+    &--open {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    @include bp(lg) { display: none; }
+  }
+
+  &__mobile-link {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: $space-4;
+    color: $color-text-2;
+    font-size: $text-base;
+    font-weight: $fw-medium;
+    border-radius: $radius-xl;
+    transition: $transition-fast;
+    border-bottom: 1px solid $color-border;
+
+    &:last-of-type { border-bottom: none; }
+
+    &:hover {
+      color: $color-primary;
+      background: $emerald-50;
+    }
+  }
+
+  &__mobile-footer {
+    margin-top: $space-6;
+    padding-top: $space-6;
+    border-top: 1px solid $color-border;
+    @include flex(column, stretch, flex-start, $space-3);
+  }
+
+  &__mobile-btn {
+    width: 100%;
+    padding: $space-4;
+    font-size: $text-base;
+    font-weight: $fw-semibold;
+    border-radius: $radius-full;
+    transition: $transition-base;
+    text-align: center;
+
+    &--login {
+      border: 1.5px solid $color-border;
+      color: $color-text-2;
+      background: transparent;
+
+      &:hover { border-color: $color-primary; color: $color-primary; }
+    }
+
+    &--cta {
+      background: $color-primary;
+      color: $white;
+      box-shadow: $shadow-green;
+    }
+  }
+}

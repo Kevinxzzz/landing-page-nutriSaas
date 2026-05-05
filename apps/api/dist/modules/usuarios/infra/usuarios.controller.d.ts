@@ -1,0 +1,11 @@
+import { Request, Response } from "express";
+export declare function listar(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+export declare function criar(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+export declare function editar(req: Request<{
+    id: string;
+}>, res: Response): Promise<Response<any, Record<string, any>>>;
+export declare function excluir(req: Request<{
+    id: string;
+}>, res: Response): Promise<Response<any, Record<string, any>>>;
+export declare function esqueciSenha(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+export declare function alterarSenha(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
