@@ -63,9 +63,9 @@
 
   &__title {
     @include heading-2;
-    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-size: clamp(2rem, 4vw, 3.25rem);
     letter-spacing: -0.04em;
-    line-height: 1.05;
+    line-height: 1.1;
     font-weight: 800;
     color: $color-text;
     max-width: 600px;
@@ -76,7 +76,7 @@
     }
 
     @include bp-max(lg) {
-      font-size: 2.5rem;
+      font-size: 2.25rem;
     }
   }
 

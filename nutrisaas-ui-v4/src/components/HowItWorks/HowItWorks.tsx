@@ -131,7 +131,6 @@ export default function HowItWorks() {
           className="how-it-works-v2__bg"
           cellSize={4}
           clusterCount={7}
-          trailLength={20}
           gridOpacity={0.03}
           sweepOpacity={0.035}
           noiseIntensity={0.008}
@@ -174,14 +173,14 @@ export default function HowItWorks() {
           {/* Right Column: Single Fading Card */}
           <div className="how-it-works-v2__right">
             <div className="how-it-works-v2__card-viewer">
-              <AnimatePresence mode="popLayout">
+              <AnimatePresence mode="wait">
                 <motion.div
                   key={activeStep}
                   className="how-it-works-v2__card"
-                  initial={{ opacity: 0, y: 40 }}
+                  initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -40 }}
-                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  exit={{ opacity: 0, y: -15 }}
+                  transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
                 >
                   <div className="how-it-works-v2__card-header">
                     <div className="how-it-works-v2__card-icon">
