@@ -26,7 +26,7 @@ export default function Pricing() {
 
   return (
     <section className="pricing-v2" id="precos" aria-label="Preços">
-      {/* Light Futuristic Background */}
+      <div id="teste-gratis" style={{ position: 'absolute', top: '-100px' }} />
       <InteractiveTechBackground
         className="pricing-v2__bg"
         bgColor={[249, 250, 251]} 
@@ -67,7 +67,11 @@ export default function Pricing() {
               onClick={() => setAnnual(true)}
             >
               Anual
-              {annual && <span className="pricing-v2__save-badge">Economize 20%</span>}
+              {annual && (
+                <span className="pricing-v2__save-badge">
+                  <span>Economize 20%</span>
+                </span>
+              )}
             </button>
           </div>
         </header>

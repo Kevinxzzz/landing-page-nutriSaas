@@ -87,11 +87,34 @@
 
   &__save-badge {
     font-size: 10px;
-    font-weight: 700;
-    color: $emerald-600;
-    background: rgba($emerald-500, 0.1);
+    font-weight: 800;
+    background: rgba($emerald-500, 0.15);
     border-radius: $radius-full;
     padding: 2px 8px;
+    display: inline-flex;
+    align-items: center;
+    overflow: hidden;
+
+    span {
+      color: $emerald-50;
+      background: linear-gradient(
+        120deg,
+        $white 30%, 
+        #4cffbd 50%,
+        $white 70%
+      );
+      background-size: 300% 100%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: textShine 3s infinite linear;
+      font-style: normal;
+    }
+  }
+
+  @keyframes textShine {
+    0% { background-position: 150% center; }
+    100% { background-position: -150% center; }
   }
 
   // ---- Single Plan Layout ----
@@ -110,6 +133,7 @@
     padding: $space-12 $space-10;
 
     @include bp-max(md) { padding: $space-10 $space-6; }
+    @media (max-width: 480px) { padding: $space-8 $space-4; }
   }
 
   &__plan-layout {
@@ -185,6 +209,7 @@
     line-height: 1;
 
     @include bp-max(md) { font-size: 4rem; }
+    @media (max-width: 480px) { font-size: 3.25rem; }
   }
 
   &__plan-period {
@@ -239,6 +264,11 @@
     padding: $space-4;
     border-radius: $radius-xl;
     font-size: $text-lg;
+
+    @media (max-width: 480px) {
+      max-width: 100%;
+      font-size: $text-base;
+    }
     font-weight: 700;
     background: $emerald-500;
     color: $white;

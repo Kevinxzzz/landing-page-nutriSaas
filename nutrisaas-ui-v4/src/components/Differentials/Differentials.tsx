@@ -16,7 +16,7 @@ const HIGHLIGHTS = [
   'Scoring automático em questionários',
   'Valores de referência integrados',
   'Níveis de acesso Admin e Nutri',
-  'Ativação completa em < 1 hora',
+  'Ativação completa em menos de 1 hora',
 ]
 
 const CARDS = [
@@ -112,7 +112,7 @@ export default function Differentials() {
               ))}
             </motion.ul>
 
-            <motion.div 
+            {/* <motion.div 
               className="differentials-v2__cta-box"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -122,7 +122,7 @@ export default function Differentials() {
               <a href="#contato" className="differentials-v2__cta-link">
                 Falar com especialista <ArrowRight />
               </a>
-            </motion.div>
+            </motion.div> */}
           </div>
 
           {/* Right Side: Cards Grid */}

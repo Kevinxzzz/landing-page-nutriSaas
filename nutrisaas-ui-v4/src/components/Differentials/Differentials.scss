@@ -141,6 +141,10 @@
       }
     }
 
+    @media (max-width: 480px) {
+      padding: $space-6;
+    }
+
     // Color variations
     &--emerald { .differentials-v2__card-icon { background: rgba($emerald-500, 0.1); color: $emerald-600; } }
     &--blue { .differentials-v2__card-icon { background: rgba(59, 130, 246, 0.1); color: #2563eb; } }

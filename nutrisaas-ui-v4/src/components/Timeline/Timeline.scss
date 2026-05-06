@@ -59,6 +59,10 @@
     color: $gray-500;
     text-align: center;
     max-width: 600px;
+
+    @include bp-max(sm) {
+      font-size: $text-base;
+    }
   }
 
   // ---- The Timeline Track ----
@@ -140,11 +144,22 @@
     transition: all 0.5s $ease-out;
     box-shadow: 0 0 0 4px $white;
 
+    @include bp-max(sm) {
+      width: 36px;
+      height: 36px;
+      left: 20px;
+    }
+
     svg {
       width: 24px;
       height: 24px;
       color: $gray-400;
       transition: color 0.5s $ease-out;
+
+      @include bp-max(sm) {
+        width: 18px;
+        height: 18px;
+      }
     }
 
     &.is-active {
@@ -166,6 +181,11 @@
     width: calc(100% - 70px);
     margin-left: 70px;
 
+    @include bp-max(sm) {
+      width: calc(100% - 50px);
+      margin-left: 50px;
+    }
+
     @include bp(md) {
       width: calc(50% - 60px);
       margin-left: 0;
@@ -178,6 +198,11 @@
     border-radius: $radius-2xl;
     border: 1px solid rgba(0,0,0,0.04);
     box-shadow: 0 20px 40px -15px rgba(0,0,0,0.05);
+
+    @include bp-max(sm) {
+      padding: $space-5;
+      border-radius: $radius-xl;
+    }
     @include flex(column, flex-start, flex-start, $space-4);
     position: relative;
     transition: $transition-base;
@@ -207,12 +232,20 @@
     font-weight: 800;
     color: $gray-900;
     letter-spacing: -0.02em;
+
+    @include bp-max(sm) {
+      font-size: $text-lg;
+    }
   }
 
   &__card-desc {
     font-size: $text-base;
     color: $gray-500;
     line-height: 1.6;
+
+    @include bp-max(sm) {
+      font-size: $text-sm;
+    }
   }
 
   &__stat {
@@ -230,6 +263,10 @@
     background: $emerald-50;
     padding: $space-1 $space-3;
     border-radius: $radius-md;
+
+    @include bp-max(sm) {
+      font-size: $text-base;
+    }
   }
 
   &__stat-label {

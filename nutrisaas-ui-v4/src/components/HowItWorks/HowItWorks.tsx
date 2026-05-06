@@ -79,29 +79,29 @@ const STEPS = [
     n: '01',
     icon: <Buildings weight="duotone" />,
     label: 'Clínica',
-    title: 'Configure sua clínica',
-    desc: 'Cadastre sua clínica, adicione usuários com perfis e personalize o ambiente em minutos. Esqueça sistemas engessados.',
+    title: 'Configuração Descomplicada',
+    desc: 'Cadastre sua clínica, adicione sua equipe com perfis de acesso e personalize o ambiente em minutos. O software se adapta a você.',
   },
   {
     n: '02',
     icon: <Users weight="duotone" />,
     label: 'Pacientes',
-    title: 'Adicione pacientes',
-    desc: 'Registre dados pessoais, histórico social e crie fichas completas. Uma visão 360° da saúde do paciente instantaneamente.',
+    title: 'Gestão de Pacientes Centralizada',
+    desc: 'Registre dados pessoais, histórico social e crie anamneses completas. Tenha a visão 360° da saúde do seu paciente a um clique.',
   },
   {
     n: '03',
     icon: <Stethoscope weight="duotone" />,
     label: 'Atendimentos',
-    title: 'Gerencie atendimentos',
-    desc: 'Evolua consultas, registre medidas antropométricas e gere dietas inteligentes. O seu tempo focado apenas nos resultados.',
+    title: 'Prontuário Eletrônico e Atendimento',
+    desc: 'Registre evoluções, avaliações antropométricas e gere dietas inteligentes de forma ágil. Otimize o tempo de consulta.',
   },
 ]
 
 export default function HowItWorks() {
   const containerRef = useRef<HTMLElement>(null)
   
-  // Track scroll progress of the 400vh section
+  // Track scroll progress of the 300vh section
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"]
@@ -141,10 +141,10 @@ export default function HowItWorks() {
           
           {/* Left Column: Text & Vertical Bar */}
           <div className="how-it-works-v2__left">
-            <span className="how-it-works-v2__badge">Fluxo de Trabalho</span>
+            <span className="how-it-works-v2__badge">Como Funciona o Sistema</span>
             <h2 className="how-it-works-v2__title">
-              A jornada do seu <br />
-              <span>sucesso operacional</span>
+              Automação e eficiência em <br />
+              <span>cada etapa do atendimento</span>
             </h2>
             
             <div className="how-it-works-v2__content-wrapper">

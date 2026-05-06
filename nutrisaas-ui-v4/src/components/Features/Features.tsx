@@ -16,22 +16,22 @@ const FEATURES = [
   { 
     id: 1,
     icon: <UserCircle weight="duotone" />, 
-    title: 'Gestão de Pacientes', 
-    desc: 'Cadastro centralizado com histórico social, convênios e ficha completa. Tudo que você precisa saber sobre seu paciente em um só lugar.', 
+    title: 'Gestão Completa de Pacientes', 
+    desc: 'Cadastro centralizado com histórico social, anamnese e ficha digital. Tenha o controle total das informações dos seus pacientes de forma segura.', 
     size: 'large' 
   },
   { 
     id: 2,
     icon: <Calendar weight="duotone" />, 
     title: 'Agenda Inteligente', 
-    desc: 'Gerencie consultas, encaixes e o ciclo de vida do atendimento em tempo real.', 
+    desc: 'Organize suas consultas, controle retornos e automatize confirmações para reduzir as faltas na sua clínica de nutrição.', 
     size: 'small'
   },
   { 
     id: 3,
     icon: <Folder weight="duotone" />, 
-    title: 'Prontuário Digital', 
-    desc: 'Evolução clínica contínua com histórico digestivo e antecedentes mórbidos.', 
+    title: 'Prontuário Eletrônico', 
+    desc: 'Evolução clínica contínua com histórico detalhado e antecedentes. Esqueça o papel e tenha tudo salvo na nuvem.', 
     size: 'small'
   },
   { 
@@ -44,15 +44,15 @@ const FEATURES = [
   { 
     id: 5,
     icon: <ClipboardText weight="duotone" />, 
-    title: 'Questionários', 
-    desc: 'Crie avaliações personalizadas com pontuação e regras de classificação automáticas.', 
+    title: 'Questionários e Anamnese', 
+    desc: 'Crie protocolos de anamnese personalizados com pontuação e regras de classificação automáticas para cada paciente.', 
     size: 'small'
   },
   { 
     id: 6,
     icon: <Flask weight="duotone" />, 
-    title: 'Controle de Exames', 
-    desc: 'Solicite e monitore parâmetros bioquímicos baseados em valores de referência.', 
+    title: 'Controle de Exames Bioquímicos', 
+    desc: 'Solicite e monitore parâmetros bioquímicos baseados em valores de referência nutricionais atualizados.', 
     size: 'small'
   },
   { 
@@ -111,7 +111,7 @@ export default function Features() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
           >
-            Ecossistema Completo
+            Recursos do Sistema
           </motion.span>
           <motion.h2 
             className="features-v2__title"
@@ -119,8 +119,8 @@ export default function Features() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            Tudo que sua clínica precisa <br />
-            <span>em uma única plataforma</span>
+            Tudo que sua clínica de nutrição precisa <br />
+            <span>em um único software</span>
           </motion.h2>
           <motion.p 
             className="features-v2__subtitle"
