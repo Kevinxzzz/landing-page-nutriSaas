@@ -1,6 +1,5 @@
 import { useEffect, useState, useMemo, useId, memo } from 'react'
-import Particles, { initParticlesEngine } from "@tsparticles/react"
-import { loadSlim } from "@tsparticles/slim"
+import Particles from "@tsparticles/react"
 import type { ISourceOptions } from "@tsparticles/engine"
 import './InteractiveTechBackground.css'
 
@@ -15,6 +14,9 @@ interface Props {
   sweepOpacity?: number
   noiseIntensity?: number
   intensity?: number
+  bgColor?: number[]
+  primaryColor?: number[]
+  accentColor?: number[]
 }
 
 const InteractiveTechBackground = memo(({
