@@ -171,6 +171,12 @@
     }
   }
 
+  &__track-line {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
   &__track-fill {
     position: absolute;
     top: 0;

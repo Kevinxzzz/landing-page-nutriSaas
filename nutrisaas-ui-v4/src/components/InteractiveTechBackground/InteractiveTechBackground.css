@@ -1,26 +1,56 @@
-/* ─── Interactive Tech Background ──────────────────────────────── */
-.itb {
+.tech-bg-container {
   position: relative;
   width: 100%;
   height: 100%;
+  min-height: 100vh; /* Ensure it covers full screen if used as main bg */
   overflow: hidden;
+  background-color: #ffffff; /* Premium white base */
 }
 
-.itb__canvas {
+.tech-bg-overlays {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-  /* The secret sauce: forces the small canvas to render as sharp blocks */
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
+  z-index: 1; /* Above background color, below particles if needed, or above particles? 
+                 Usually we want grid below particles, but noise can be on top.
+                 Let's put overlays at z-index: 1 and particles at z-index: 2, content at 3. */
+  pointer-events: none; /* Let mouse interact with particles below */
 }
 
-.itb__content {
+.tech-bg-grid {
+  position: absolute;
+  inset: 0;
+  /* Very subtle tech grid */
+  background-image: 
+    linear-gradient(to right, rgba(34, 197, 94, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(34, 197, 94, 0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+  z-index: 1;
+}
+
+.tech-bg-noise {
+  position: absolute;
+  inset: 0;
+  z-index: 2; /* Noise slightly above grid */
+  opacity: 0.025; /* Very subtle noise */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.tech-bg-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 3; /* Particles on top of grid/noise */
+}
+
+/* tsparticles adds a canvas element inside */
+.tech-bg-canvas canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.tech-bg-content {
   position: relative;
-  z-index: 2;
+  z-index: 10; /* Content safely above everything */
   width: 100%;
   height: 100%;
 }
