@@ -6,8 +6,7 @@ import {
   ChartLine, 
   CheckCircle,
   Sparkle,
-  Target,
-  ArrowRight
+  Target
 } from '@phosphor-icons/react'
 import './Differentials.scss'
 
