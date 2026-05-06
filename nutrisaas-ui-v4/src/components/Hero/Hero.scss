@@ -25,7 +25,6 @@
     object-position: center;
     z-index: 0;
     pointer-events: none;
-    // Slight performance hint
     will-change: transform;
   }
 
@@ -34,13 +33,12 @@
     content: '';
     position: absolute;
     inset: 0;
-    background:
-      linear-gradient(
-        105deg,
-        rgba(2, 20, 12, 0.82) 0%,
-        rgba(3, 30, 18, 0.65) 50%,
-        rgba(2, 20, 12, 0.50) 100%
-      );
+    background: linear-gradient(
+      105deg,
+      rgba(2, 20, 12, 0.82) 0%,
+      rgba(3, 30, 18, 0.65) 50%,
+      rgba(2, 20, 12, 0.50) 100%
+    );
     z-index: 1;
     pointer-events: none;
   }
@@ -60,7 +58,7 @@
   &__inner {
     @include container;
     position: relative;
-    z-index: 3; // above both overlay layers
+    z-index: 3;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: $space-16;
@@ -101,7 +99,9 @@
   &__eyebrow {
     @include flex(row, center, flex-start, $space-2);
 
-    @include bp-max(lg) { justify-content: center; }
+    @include bp-max(lg) {
+      justify-content: center;
+    }
 
     @media (max-width: 480px) {
       padding-top: $space-2;
@@ -112,10 +112,14 @@
 
   &__badge {
     @include badge;
-    // Adapt for dark background
     background: rgba(5, 150, 105, 0.18);
     border-color: rgba(5, 150, 105, 0.4);
     color: $emerald-300;
+
+    @media (max-width: 480px) {
+      font-size: 0.7rem;
+      padding: 0.3rem 0.7rem;
+    }
   }
 
   &__badge-dot {
@@ -153,9 +157,12 @@
     max-width: 520px;
     text-wrap: balance;
 
-    @include bp-max(lg) { max-width: 600px; }
-    @media (max-width: 480px) { 
-      font-size: 0.875rem; 
+    @include bp-max(lg) {
+      max-width: 600px;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 0.875rem;
       line-height: 1.4;
       max-width: 100%;
     }
@@ -165,12 +172,14 @@
     @include flex(row, center, flex-start, $space-4);
     flex-wrap: wrap;
 
-    @include bp-max(lg) { justify-content: center; }
-    
+    @include bp-max(lg) {
+      justify-content: center;
+    }
+
     @media (max-width: 480px) {
       flex-direction: column;
       width: 100%;
-      
+
       a {
         width: 100%;
         text-align: center;
@@ -194,15 +203,15 @@
     @include btn-base;
     padding: 0.875rem 2rem;
     font-size: $text-base;
+    background: rgba(255, 255, 255, 0.10);
+    color: $white;
+    border: 1.5px solid rgba(255, 255, 255, 0.28);
+    backdrop-filter: blur(8px);
 
     @media (max-width: 480px) {
       padding: 0.6rem 1.2rem;
       font-size: 0.8rem;
     }
-    background: rgba(255, 255, 255, 0.10);
-    color: $white;
-    border: 1.5px solid rgba(255, 255, 255, 0.28);
-    backdrop-filter: blur(8px);
 
     &:hover {
       background: rgba(255, 255, 255, 0.18);
@@ -217,7 +226,9 @@
     border-top: 1px solid rgba(255, 255, 255, 0.15);
     flex-wrap: wrap;
 
-    @include bp-max(lg) { justify-content: center; }
+    @include bp-max(lg) {
+      justify-content: center;
+    }
 
     @media (max-width: 480px) {
       display: none;
@@ -227,11 +238,12 @@
   &__avatars {
     @include flex(row, center, flex-start, 0);
 
-    img, &-item {
+    img,
+    &-item {
       width: 36px;
       height: 36px;
       border-radius: $radius-full;
-      border: 2px solid rgba(255,255,255,0.5);
+      border: 2px solid rgba(255, 255, 255, 0.5);
       margin-left: -10px;
       background: linear-gradient(135deg, $emerald-400, $emerald-700);
       @include flex-center;
@@ -240,7 +252,9 @@
       color: $white;
       flex-shrink: 0;
 
-      &:first-child { margin-left: 0; }
+      &:first-child {
+        margin-left: 0;
+      }
 
       @media (max-width: 480px) {
         width: 28px;
@@ -262,7 +276,7 @@
 
   &__review-count {
     font-size: $text-xs;
-    color: rgba(255,255,255,0.6);
+    color: rgba(255, 255, 255, 0.6);
     font-weight: $fw-medium;
 
     strong {
@@ -278,9 +292,14 @@
     gap: $space-8;
     flex-wrap: wrap;
 
-    @include bp-max(lg) { justify-content: center; }
-    @include bp-max(sm) { gap: $space-6; }
-    
+    @include bp-max(lg) {
+      justify-content: center;
+    }
+
+    @include bp-max(sm) {
+      gap: $space-6;
+    }
+
     @media (max-width: 480px) {
       display: none;
     }
@@ -300,13 +319,13 @@
     background-clip: text;
 
     @media (max-width: 480px) {
-      font-size: $text-lg; /* Smaller to fit 3 in a row */
+      font-size: $text-lg;
     }
   }
 
   &__stat-label {
     font-size: $text-xs;
-    color: rgba(255,255,255,0.55);
+    color: rgba(255, 255,  255, 0.55);
     font-weight: $fw-medium;
     letter-spacing: $ls-wider;
     text-transform: uppercase;
@@ -315,7 +334,7 @@
   &__stat-sep {
     width: 1px;
     height: 40px;
-    background: rgba(255,255,255,0.18);
+    background: rgba(255, 255, 255, 0.18);
     align-self: center;
     flex-shrink: 0;
 
@@ -336,9 +355,7 @@
 
     @media (max-width: 480px) {
       width: 100%;
-      transform: scale(0.75); /* Compact card but stacked */
-      transform-origin: center top;
-      margin-top: $space-8; /* Increased space as requested */
+      margin-top: $space-8;
     }
   }
 
@@ -358,7 +375,7 @@
     background: $white;
     border-radius: $radius-2xl;
     border: 1px solid $color-border;
-    box-shadow: $shadow-2xl, 0 0 0 1px rgba(0,0,0,0.03);
+    box-shadow: $shadow-2xl, 0 0 0 1px rgba(0, 0, 0, 0.03);
     overflow: hidden;
     animation: float 6s ease-in-out infinite;
   }
@@ -368,6 +385,10 @@
     padding: $space-3 $space-5;
     background: $gray-50;
     border-bottom: 1px solid $color-border;
+
+    @media (max-width: 480px) {
+      padding: $space-2 $space-3;
+    }
   }
 
   &__browser-dots {
@@ -379,9 +400,15 @@
     height: 10px;
     border-radius: $radius-full;
 
-    &--red    { background: #ff5f57; }
-    &--yellow { background: #febc2e; }
-    &--green  { background: #28c840; }
+    &--red {
+      background: #ff5f57;
+    }
+    &--yellow {
+      background: #febc2e;
+    }
+    &--green {
+      background: #28c840;
+    }
   }
 
   &__browser-url {
@@ -393,6 +420,11 @@
     font-size: $text-xs;
     color: $color-text-4;
     text-align: center;
+
+    @media (max-width: 480px) {
+      font-size: 0.6rem;
+      padding: 2px 10px;
+    }
   }
 
   &__dashboard {
@@ -403,6 +435,10 @@
     @include bp-max(sm) {
       grid-template-columns: 1fr;
     }
+
+    @media (max-width: 480px) {
+      min-height: 280px;
+    }
   }
 
   &__sidebar {
@@ -411,7 +447,13 @@
     padding: $space-4;
     @include flex(column, stretch, flex-start, $space-1);
 
-    @include bp-max(sm) { display: none; }
+    @include bp-max(sm) {
+      display: none;
+    }
+
+    @media (max-width: 480px) {
+      padding: $space-2;
+    }
   }
 
   &__sidebar-label {
@@ -423,7 +465,9 @@
     padding: $space-2 $space-2 $space-1;
     margin-top: $space-2;
 
-    &:first-child { margin-top: 0; }
+    &:first-child {
+      margin-top: 0;
+    }
   }
 
   &__sidebar-item {
@@ -447,12 +491,22 @@
       background: $white;
       color: $color-text;
     }
+
+    @media (max-width: 480px) {
+      padding: 4px 8px;
+      font-size: 0.65rem;
+    }
   }
 
   &__main {
     padding: $space-5;
     background: $white;
     @include flex(column, stretch, flex-start, $space-4);
+
+    @media (max-width: 480px) {
+      padding: $space-3;
+      gap: $space-3;
+    }
   }
 
   &__main-header {
@@ -463,12 +517,21 @@
     font-size: $text-base;
     font-weight: $fw-bold;
     color: $color-text;
+
+    @media (max-width: 480px) {
+      font-size: 0.8rem;
+    }
   }
 
   &__live-badge {
     @include badge;
     font-size: 9px;
     gap: $space-1;
+
+    @media (max-width: 480px) {
+      font-size: 8px;
+      padding: 2px 8px;
+    }
   }
 
   &__live-dot {
@@ -487,8 +550,10 @@
     @media (max-width: 768px) {
       grid-template-columns: repeat(2, 1fr);
     }
+
     @media (max-width: 480px) {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, 1fr);
+      gap: $space-2;
     }
   }
 
@@ -497,6 +562,10 @@
     border: 1px solid $color-border;
     border-radius: $radius-xl;
     padding: $space-3;
+
+    @media (max-width: 480px) {
+      padding: $space-2;
+    }
   }
 
   &__kpi-label {
@@ -506,6 +575,10 @@
     color: $color-text-4;
     font-weight: $fw-medium;
     margin-bottom: $space-1;
+
+    @media (max-width: 480px) {
+      font-size: 8px;
+    }
   }
 
   &__kpi-value {
@@ -513,6 +586,10 @@
     font-weight: $fw-bold;
     color: $color-primary;
     letter-spacing: $ls-tight;
+
+    @media (max-width: 480px) {
+      font-size: 1.1rem;
+    }
   }
 
   &__kpi-delta {
@@ -520,8 +597,41 @@
     color: $color-text-4;
     margin-top: 2px;
 
-    &--up { color: $color-success; }
+    &--up {
+      color: $color-success;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 8px;
+    }
   }
+
+  @media (max-width: 480px) {
+  .hero__kpis {
+    gap: 6px;
+  }
+
+  .hero__kpi {
+    padding: 2px 4px;
+    border-radius: 12px;
+  }
+
+  .hero__kpi-label {
+    font-size: 7px;
+    margin-bottom: 2px;
+    letter-spacing: 0.08em;
+  }
+
+  .hero__kpi-value {
+    font-size: 0.55rem;
+    line-height: 1.1;
+  }
+
+  .hero__kpi-delta {
+    font-size: 5px;
+    margin-top: 1px;
+  }
+}
 
   &__chart-area {
     background: $gray-50;
@@ -530,7 +640,24 @@
     padding: $space-4;
     @include flex(row, flex-end, flex-start, $space-2);
     height: 80px;
+
+    @media (max-width: 480px) {
+      height: 55px;
+      padding: $space-2;
+    }
   }
+
+  @media (max-width: 480px) {
+  .hero__chart-area {
+    height: 45px;       /* diminui altura total */
+    padding: 6px;       /* menos espaço interno */
+    gap: 4px;           /* barras mais próximas */
+  }
+  .hero__bar {
+    min-width: 0.5px;     /* barras mais finas */
+    border-radius: 3px 3px 0 0;
+  }
+}
 
   &__bar {
     flex: 1;
@@ -539,7 +666,9 @@
     position: relative;
     min-width: 6px;
 
-    &--peak { background: $color-primary; }
+    &--peak {
+      background: $color-primary;
+    }
   }
 
   &__patient-list {
@@ -555,12 +684,20 @@
     border-bottom: 1px solid $color-border;
     background: $white;
     gap: $space-2;
+
+    @media (max-width: 480px) {
+      padding: $space-2 $space-3;
+    }
   }
 
   &__patient-head-title {
     font-size: $text-sm;
     font-weight: $fw-semibold;
     color: $color-text;
+
+    @media (max-width: 480px) {
+      font-size: 0.75rem;
+    }
   }
 
   &__patient-head-btn {
@@ -572,24 +709,35 @@
     border-radius: $radius-full;
     padding: 2px 10px;
     cursor: pointer;
+
+    @media (max-width: 480px) {
+      font-size: 9px;
+      padding: 2px 8px;
+    }
   }
 
   &__patient-row {
     @include flex-between;
     padding: $space-3 $space-4;
-    border-bottom: 1px solid rgba(0,0,0,0.04);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
     background: $white;
     gap: $space-2;
 
-    &:last-child { border-bottom: none; }
-    &:hover { background: $green-50; }
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background: $green-50;
+    }
 
     @media (max-width: 480px) {
+      padding: $space-2 $space-3;
       flex-direction: column;
       align-items: flex-start;
-      
+
       .hero__patient-chip {
-        margin-left: 42px; /* align with text */
+        margin-left: 42px;
       }
     }
   }
@@ -614,11 +762,19 @@
     font-size: $text-sm;
     font-weight: $fw-medium;
     color: $color-text;
+
+    @media (max-width: 480px) {
+      font-size: 0.75rem;
+    }
   }
 
   &__patient-meta {
     font-size: 10px;
     color: $color-text-4;
+
+    @media (max-width: 480px) {
+      font-size: 0.6rem;
+    }
   }
 
   &__patient-chip {
@@ -644,5 +800,58 @@
       color: #1d4ed8;
       border: 1px solid #bfdbfe;
     }
+  }
+}
+
+@media (max-width: 480px) {
+  .hero__patient-list {
+    border-radius: 14px;
+  }
+
+  .hero__patient-head {
+    padding: 6px 10px;
+  }
+
+  .hero__patient-head-title {
+    font-size: 0.7rem;
+  }
+
+  .hero__patient-head-btn {
+    font-size: 0.6rem;
+    padding: 2px 6px;
+  }
+  .hero__patient-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .hero__patient-info {
+    gap: 8px;
+  }
+
+  .hero__patient-avatar {
+    width: 15px;
+    height: 15px;
+    font-size: 0.35rem;
+  }
+
+  .hero__patient-name {
+    font-size: 0.5rem;
+    line-height: 1.1;
+  }
+
+  .hero__patient-meta {
+    font-size: 0.35rem;
+    line-height: 1.1;
+  }
+
+
+
+  .hero__patient-chip {
+    margin-left: auto;
+    font-size: 0.35rem;
+    width: 50px;
+    height: 12px;
   }
 }
