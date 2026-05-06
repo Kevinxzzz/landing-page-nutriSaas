@@ -1,237 +1,306 @@
 @use '../../styles/variables' as *;
 @use '../../styles/mixins' as *;
 
-.pricing {
+.pricing-v2 {
   @include section;
-  background: $color-bg-alt;
+  position: relative;
+  background: $gray-50;
   border-top: 1px solid $color-border;
   border-bottom: 1px solid $color-border;
+  overflow: hidden;
 
-  &__inner { @include container; }
-
-  &__header {
-    @include section-header;
+  &__bg {
+    position: absolute !important;
+    inset: 0;
+    z-index: 0;
   }
 
-  &__badge { @include badge; }
+  &__inner {
+    @include container;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__header {
+    text-align: center;
+    margin-bottom: $space-16;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__badge {
+    @include badge;
+    display: inline-flex;
+    align-items: center;
+    gap: $space-2;
+    background: $white;
+    color: $emerald-600;
+    border: 1px solid $color-border;
+    box-shadow: $shadow-sm;
+    svg { color: $emerald-500; }
+  }
 
   &__title {
     @include heading-2;
-    text-wrap: balance;
+    color: $gray-900;
+    margin: $space-4 0;
     em { @include text-gradient-green; font-style: normal; }
   }
 
   &__subtitle {
     font-size: $text-lg;
-    color: $color-text-3;
-    max-width: 440px;
-    text-wrap: balance;
+    color: $gray-500;
+    max-width: 520px;
+    margin: 0 auto $space-8;
   }
 
   &__toggle {
-    @include flex(row, center, center, $space-3);
+    @include flex(row, center, center, $space-2);
     background: $white;
     border: 1px solid $color-border;
     border-radius: $radius-full;
     padding: $space-1;
-    gap: 0;
+    box-shadow: $shadow-sm;
   }
 
   &__toggle-btn {
-    padding: $space-2 $space-5;
+    padding: $space-2 $space-6;
     border-radius: $radius-full;
     font-size: $text-sm;
-    font-weight: $fw-medium;
-    color: $color-text-3;
+    font-weight: 600;
+    color: $gray-500;
     cursor: pointer;
-    transition: $transition-fast;
+    transition: all 0.3s ease;
     border: none;
     background: transparent;
+    display: flex;
+    align-items: center;
+    gap: $space-2;
 
     &--active {
-      background: $color-primary;
+      background: $emerald-500;
       color: $white;
-      box-shadow: $shadow-green;
+      box-shadow: 0 4px 12px rgba($emerald-500, 0.3);
     }
   }
 
   &__save-badge {
-    font-size: $text-xs;
-    font-weight: $fw-semibold;
-    color: $color-primary;
-    background: $color-badge-bg;
-    border: 1px solid $color-badge-border;
+    font-size: 10px;
+    font-weight: 800;
+    background: rgba($emerald-500, 0.15);
     border-radius: $radius-full;
-    padding: 2px 10px;
+    padding: 2px 8px;
+    display: inline-flex;
+    align-items: center;
+    overflow: hidden;
+
+    span {
+      color: $emerald-50;
+      background: linear-gradient(
+        120deg,
+        $white 30%, 
+        #4cffbd 50%,
+        $white 70%
+      );
+      background-size: 300% 100%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: textShine 3s infinite linear;
+      font-style: normal;
+    }
   }
 
-  &__grid {
+  @keyframes textShine {
+    0% { background-position: 150% center; }
+    100% { background-position: -150% center; }
+  }
+
+  // ---- Single Plan Layout ----
+  &__single-grid {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  &__plan--single {
+    background: $white;
+    border: 2px solid $emerald-500;
+    border-radius: $radius-3xl;
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: visible;
+    padding: $space-12 $space-10;
+
+    @include bp-max(md) { padding: $space-10 $space-6; }
+    @media (max-width: 480px) { padding: $space-8 $space-4; }
+  }
+
+  &__plan-layout {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: $space-5;
-    align-items: start;
+    grid-template-columns: 1fr auto 1.2fr;
+    gap: $space-10;
+    align-items: center;
 
     @include bp-max(lg) {
       grid-template-columns: 1fr;
-      max-width: 440px;
-      margin-inline: auto;
+      gap: $space-8;
     }
   }
 
-  &__plan {
-    @include card;
-    padding: $space-8 $space-6;
+  &__plan-left {
+    @include flex(column, center, center, $space-8);
+    text-align: center;
+  }
+
+  &__plan-right {
     @include flex(column, flex-start, flex-start, $space-6);
-    transition: $transition-base;
+  }
 
-    &:hover:not(&--popular) {
-      transform: translateY(-4px);
-      box-shadow: $shadow-lg;
-    }
-
-    &--popular {
-      background: $color-primary;
-      border-color: $color-primary;
-      transform: translateY(-8px);
-      box-shadow: $shadow-green-lg, $shadow-2xl;
-      position: relative;
-
-      .pricing__plan-name    { color: rgba(255,255,255,0.75); }
-      .pricing__plan-price   { color: $white; }
-      .pricing__plan-period  { color: rgba(255,255,255,0.6); }
-      .pricing__plan-desc    { color: rgba(255,255,255,0.7); }
-      .pricing__plan-feature { color: rgba(255,255,255,0.85); }
-      .pricing__plan-check   { background: rgba(255,255,255,0.15); color: $white; border-color: rgba(255,255,255,0.2); }
-      .pricing__plan-divider { background: rgba(255,255,255,0.15); }
-
-      @include bp-max(lg) { transform: translateY(0); }
-    }
+  &__plan-divider-vertical {
+    width: 1px;
+    height: 80%;
+    background: $color-border;
+    @include bp-max(lg) { display: none; }
   }
 
   &__plan-popular-tag {
     position: absolute;
-    top: -14px;
+    top: -16px;
     left: 50%;
     transform: translateX(-50%);
-    background: $white;
-    color: $color-primary;
+    background: linear-gradient(90deg, $emerald-500, $emerald-600);
+    color: $white;
     font-size: $text-xs;
-    font-weight: $fw-bold;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
     border-radius: $radius-full;
-    padding: $space-1 $space-4;
-    box-shadow: $shadow-sm;
-    white-space: nowrap;
-  }
-
-  &__plan-header {
-    @include flex(column, flex-start, flex-start, $space-2);
-    width: 100%;
+    padding: 8px 24px;
+    box-shadow: 0 8px 20px rgba($emerald-500, 0.3);
   }
 
   &__plan-name {
     font-size: $text-sm;
-    font-weight: $fw-semibold;
-    color: $color-text-3;
+    font-weight: 700;
+    color: $emerald-600;
     text-transform: uppercase;
-    letter-spacing: $ls-wider;
+    letter-spacing: 0.1em;
+    margin-bottom: $space-2;
   }
 
   &__plan-price-row {
-    @include flex(row, flex-end, flex-start, $space-1);
-    line-height: 1;
+    @include flex(row, flex-end, center, $space-1);
+    color: $gray-900;
+    margin-bottom: $space-4;
   }
 
   &__plan-currency {
-    font-size: $text-xl;
-    font-weight: $fw-bold;
-    color: $color-text;
-    align-self: flex-start;
-    padding-top: 6px;
+    font-size: 2rem;
+    font-weight: 700;
+    color: $gray-400;
+    margin-top: $space-2;
   }
 
   &__plan-price {
-    font-size: $text-6xl;
-    font-weight: $fw-black;
-    letter-spacing: $ls-tight;
-    color: $color-text;
+    font-size: 5rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+
+    @include bp-max(md) { font-size: 4rem; }
+    @media (max-width: 480px) { font-size: 3.25rem; }
   }
 
   &__plan-period {
-    font-size: $text-sm;
-    color: $color-text-3;
-    align-self: flex-end;
-    padding-bottom: 6px;
+    font-size: $text-xl;
+    color: $gray-400;
+    margin-bottom: $space-2;
   }
 
   &__plan-desc {
-    font-size: $text-sm;
-    color: $color-text-3;
-    line-height: $lh-normal;
+    font-size: $text-base;
+    color: $gray-500;
+    line-height: 1.6;
+    max-width: 320px;
   }
 
-  &__plan-divider {
-    width: 100%;
-    height: 1px;
-    background: $color-border;
+  &__plan-features-label {
+    font-size: $text-sm;
+    font-weight: 700;
+    color: $gray-900;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
   &__plan-features {
-    @include flex(column, flex-start, flex-start, $space-3);
-    width: 100%;
-    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $space-4 $space-8;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @include bp-max(sm) { grid-template-columns: 1fr; }
   }
 
   &__plan-feature {
     @include flex(row, center, flex-start, $space-3);
     font-size: $text-sm;
-    color: $color-text-2;
+    color: $gray-600;
+    font-weight: 500;
   }
 
   &__plan-check {
-    width: 20px;
-    height: 20px;
-    border-radius: $radius-full;
-    background: $color-badge-bg;
-    border: 1.5px solid $color-badge-border;
-    @include flex-center;
-    font-size: 10px;
-    color: $color-primary;
-    font-weight: $fw-bold;
+    color: $emerald-500;
+    font-size: 1.25rem;
     flex-shrink: 0;
   }
 
   &__plan-cta {
+    @include flex(row, center, center, $space-2);
     width: 100%;
-    padding: $space-3 $space-6;
-    border-radius: $radius-full;
-    font-size: $text-sm;
-    font-weight: $fw-semibold;
-    text-align: center;
-    transition: $transition-base;
-    cursor: pointer;
+    max-width: 300px;
+    padding: $space-4;
+    border-radius: $radius-xl;
+    font-size: $text-lg;
+
+    @media (max-width: 480px) {
+      max-width: 100%;
+      font-size: $text-base;
+    }
+    font-weight: 700;
+    background: $emerald-500;
+    color: $white;
     border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 25px rgba($emerald-500, 0.25);
 
-    &--outline {
-      background: transparent;
-      border: 1.5px solid $color-border;
-      color: $color-text;
-
-      &:hover { border-color: $color-primary; color: $color-primary; background: $emerald-50; }
+    &:hover {
+      background: $emerald-600;
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px rgba($emerald-500, 0.35);
     }
+  }
 
-    &--white {
-      background: $white;
-      color: $color-primary;
-      box-shadow: $shadow-md;
-
-      &:hover { transform: translateY(-1px); box-shadow: $shadow-lg; }
-    }
+  &__plan-trial {
+    font-size: $text-xs;
+    color: $gray-400;
+    margin-top: $space-4;
   }
 
   &__footer-note {
     text-align: center;
     font-size: $text-sm;
-    color: $color-text-3;
-    margin-top: $space-8;
+    color: $gray-400;
+    margin-top: $space-12;
+
+    a {
+      color: $emerald-600;
+      text-decoration: none;
+      font-weight: 600;
+      &:hover { text-decoration: underline; }
+    }
   }
 }

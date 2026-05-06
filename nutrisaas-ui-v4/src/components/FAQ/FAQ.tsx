@@ -19,9 +19,9 @@ export default function FAQ() {
     <section className="faq" id="faq" aria-label="Perguntas frequentes">
       <div className="faq__inner">
         <header className="faq__header">
-          <span className="faq__badge">FAQ</span>
+          <span className="faq__badge">Dúvidas Frequentes</span>
           <h2 className="faq__title">
-            Tudo que você precisa saber, <em>antes de começar</em>
+            Tudo sobre o <em>software para nutricionistas</em>
           </h2>
         </header>
 

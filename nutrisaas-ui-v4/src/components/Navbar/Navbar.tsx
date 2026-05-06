@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react'
 import './Navbar.scss'
 
 const NAV_LINKS = [
-  { label: 'Como funciona', href: '#como-funciona' },
-  { label: 'Funcionalidades', href: '#funcionalidades' },
-  { label: 'Benefícios', href: '#beneficios' },
-  { label: 'Preços', href: '#precos' },
-  { label: 'FAQ', href: '#faq' },
+  { label: 'Metodologia', href: '#como-funciona' },
+  { label: 'Recursos', href: '#funcionalidades' },
+  { label: 'Jornada', href: '#timeline' },
+  { label: 'Depoimentos', href: '#depoimentos' },
+  { label: 'Planos', href: '#precos' },
 ]
 
 export default function Navbar() {
@@ -80,7 +80,7 @@ export default function Navbar() {
             Entrar
           </a>
           <a href="#teste-gratis" className="navbar__mobile-btn navbar__mobile-btn--cta" onClick={handleLinkClick}>
-            Teste Grátis — É gratuito
+            Experimentar Grátis — 14 dias
           </a>
         </div>
       </nav>

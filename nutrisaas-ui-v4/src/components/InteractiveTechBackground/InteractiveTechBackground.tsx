@@ -1,45 +1,48 @@
-import { useRef, useEffect, useCallback } from 'react'
+import { useRef, useEffect } from 'react'
 import './InteractiveTechBackground.css'
 
 // ─── Configuration ───────────────────────────────────────────────
-interface TechBgConfig {
-  /** Base pixel cell size (smaller = finer grain) */
+export interface TechBgConfig {
   cellSize?: number
-  /** Primary green color in [r,g,b] */
   primaryColor?: [number, number, number]
-  /** Accent brighter green [r,g,b] */
   accentColor?: [number, number, number]
-  /** Background color [r,g,b] */
   bgColor?: [number, number, number]
-  /** Number of ambient pixel clusters */
   clusterCount?: number
-  /** Grid line opacity (0–1, 0 = off) */
   gridOpacity?: number
-  /** Scanline sweep opacity */
   sweepOpacity?: number
-  /** Noise/grain intensity (0–1) */
   noiseIntensity?: number
-  /** Overall intensity multiplier */
   intensity?: number
+  mouseRadius?: number
+  mouseForce?: number
+  mouseDamping?: number
+  mouseSpring?: number
+  mouseLimit?: number
 }
 
 const DEFAULTS: Required<TechBgConfig> = {
   cellSize: 4,
   primaryColor: [34, 197, 94],    // #22c55e
   accentColor: [16, 185, 129],    // emerald-500
-  bgColor: [249, 250, 251],       // #f9fafb
+  bgColor: [249, 250, 251],       // #f9fafb (light default)
   clusterCount: 14,
   gridOpacity: 0.035,
   sweepOpacity: 0.04,
   noiseIntensity: 0.012,
   intensity: 1.15,
+  mouseRadius: 200,
+  mouseForce: 1.0,
+  mouseDamping: 0.88,
+  mouseSpring: 0.04,
+  mouseLimit: 40,
 }
 
-// ─── Pixel Cluster (organic shape, not a simple circle) ──────────
+// ─── Pixel Cluster ───────────────────────────────────────────────
 interface PixelCluster {
-  bx: number; by: number
-  px: number; py: number
-  sx: number; sy: number
+  bx: number; by: number // base normalized
+  x: number; y: number   // current canvas pos
+  vx: number; vy: number // velocity
+  px: number; py: number // phase for drift
+  sx: number; sy: number // speed for drift
   radius: number
   shapeSeed: number[]
   alpha: number
@@ -62,16 +65,19 @@ function generateClusterShape(seed: number): number[] {
   return shape
 }
 
-function createCluster(w: number, h: number, i: number): PixelCluster {
+function createCluster(cW: number, cH: number, i: number): PixelCluster {
   const s = i * 7.31
+  const bx = 0.1 + seededRandom(s + 1) * 0.8
+  const by = 0.1 + seededRandom(s + 2) * 0.8
   return {
-    bx: 0.1 + seededRandom(s + 1) * 0.8,
-    by: 0.1 + seededRandom(s + 2) * 0.8,
+    bx, by,
+    x: bx * cW, y: by * cH,
+    vx: 0, vy: 0,
     px: seededRandom(s + 3) * Math.PI * 2,
     py: seededRandom(s + 4) * Math.PI * 2,
     sx: 0.08 + seededRandom(s + 5) * 0.15,
     sy: 0.06 + seededRandom(s + 6) * 0.12,
-    radius: 18 + seededRandom(s + 7) * 55,
+    radius: 20 + seededRandom(s + 7) * 60,
     shapeSeed: generateClusterShape(s + 8),
     alpha: 0.09 + seededRandom(s + 9) * 0.13,
     phase: seededRandom(s + 10) * Math.PI * 2,
@@ -93,31 +99,36 @@ export default function InteractiveTechBackground({
 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
-  const frameRef = useRef(0)
+  const mouseRef = useRef({ x: -1000, y: -1000 })
 
   const cfg = { ...DEFAULTS, ...configOverrides }
 
-  const draw = useCallback(() => {
-    const canvas = canvasRef.current
-    const container = containerRef.current
-    if (!canvas || !container) return
-
-    const ctx = canvas.getContext('2d', { alpha: false })
-    if (!ctx) return
-
-    const rect = container.getBoundingClientRect()
-    const W = rect.width
-    const H = rect.height
-    const cW = Math.ceil(W / cfg.cellSize)
-    const cH = Math.ceil(H / cfg.cellSize)
-
-    if (canvas.width !== cW || canvas.height !== cH) {
-      canvas.width = cW
-      canvas.height = cH
+  // Handle Mouse
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!containerRef.current) return
+      const rect = containerRef.current.getBoundingClientRect()
+      mouseRef.current = {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      }
+    }
+    const handleMouseLeave = () => {
+      mouseRef.current = { x: -1000, y: -1000 }
     }
 
-    return { ctx, cW, cH, W, H, rect }
-  }, [cfg.cellSize])
+    const container = containerRef.current
+    if (container) {
+      container.addEventListener('mousemove', handleMouseMove)
+      container.addEventListener('mouseleave', handleMouseLeave)
+    }
+    return () => {
+      if (container) {
+        container.removeEventListener('mousemove', handleMouseMove)
+        container.removeEventListener('mouseleave', handleMouseLeave)
+      }
+    }
+  }, [])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -126,7 +137,6 @@ export default function InteractiveTechBackground({
 
     let animId: number
     let clusters: PixelCluster[] = []
-    let prevTime = performance.now()
     const [bgR, bgG, bgB] = cfg.bgColor
     const [pR, pG, pB] = cfg.primaryColor
     const [aR, aG, aB] = cfg.accentColor
@@ -149,6 +159,12 @@ export default function InteractiveTechBackground({
       const H = rect.height
       const cW = Math.ceil(W / cfg.cellSize)
       const cH = Math.ceil(H / cfg.cellSize)
+      
+      // Map mouse to canvas grid scale
+      const mX = mouseRef.current.x / cfg.cellSize
+      const mY = mouseRef.current.y / cfg.cellSize
+      const mRadius = cfg.mouseRadius / cfg.cellSize
+      const mLimit = cfg.mouseLimit / cfg.cellSize
 
       if (canvas.width !== cW || canvas.height !== cH) {
         canvas.width = cW
@@ -160,9 +176,6 @@ export default function InteractiveTechBackground({
         lastCW = cW
         lastCH = cH
       }
-
-      const dt = Math.min((now - prevTime) / 1000, 0.05)
-      prevTime = now
       const t = now * 0.001
 
       // ─── 1. Clear to background ─────────────────────────────
@@ -172,7 +185,7 @@ export default function InteractiveTechBackground({
       // ─── 2. Subtle Grid ─────────────────────────────────────
       if (cfg.gridOpacity > 0) {
         ctx.strokeStyle = `rgba(${pR},${pG},${pB},${cfg.gridOpacity})`
-        ctx.lineWidth = 0.3
+        ctx.lineWidth = 0.5
         const gridSpacing = Math.round(cW / 28)
         for (let gx = 0; gx < cW; gx += gridSpacing) {
           ctx.beginPath()
@@ -197,39 +210,74 @@ export default function InteractiveTechBackground({
         }
       }
 
-      // ─── 3. Ambient Pixel Clusters ──────────────────────────
+      // ─── 3. Physics & Ambient Pixel Clusters ────────────────
       clusters.forEach(cluster => {
-        const cx = cluster.bx * cW
+        // Target autonomous drift position
+        const targetX = cluster.bx * cW
           + Math.sin(t * cluster.sx + cluster.px) * cW * 0.12
           + Math.sin(t * cluster.sx * 0.7 + cluster.py) * cW * 0.05
 
-        const cy = cluster.by * cH
+        const targetY = cluster.by * cH
           + Math.cos(t * cluster.sy + cluster.py) * cH * 0.10
           + Math.cos(t * cluster.sy * 0.6 + cluster.px) * cH * 0.04
+
+        // Mouse Repulsion
+        const dx = cluster.x - mX
+        const dy = cluster.y - mY
+        const dist = Math.sqrt(dx * dx + dy * dy)
+        
+        if (dist < mRadius && dist > 0) {
+          const force = (1 - dist / mRadius) * cfg.mouseForce
+          cluster.vx += (dx / dist) * force
+          cluster.vy += (dy / dist) * force
+        }
+
+        // Spring back to target
+        const springX = (targetX - cluster.x) * cfg.mouseSpring
+        const springY = (targetY - cluster.y) * cfg.mouseSpring
+        cluster.vx += springX
+        cluster.vy += springY
+
+        // Damping
+        cluster.vx *= cfg.mouseDamping
+        cluster.vy *= cfg.mouseDamping
+
+        // Apply velocity
+        cluster.x += cluster.vx
+        cluster.y += cluster.vy
+
+        // Limit offset from target to prevent extreme scattering
+        const ox = cluster.x - targetX
+        const oy = cluster.y - targetY
+        const odist = Math.sqrt(ox * ox + oy * oy)
+        if (odist > mLimit) {
+          cluster.x = targetX + (ox / odist) * mLimit
+          cluster.y = targetY + (oy / odist) * mLimit
+        }
 
         const pulse = 0.8 + Math.sin(t * 0.5 + cluster.phase) * 0.2
         const r = cluster.radius * pulse * cfg.intensity
 
         const steps = cluster.shapeSeed.length
-        for (let dx = -r; dx <= r; dx++) {
-          for (let dy = -r; dy <= r; dy++) {
-            const dist = Math.sqrt(dx * dx + dy * dy)
-            if (dist > r) continue
+        for (let ix = -r; ix <= r; ix++) {
+          for (let iy = -r; iy <= r; iy++) {
+            const pDist = Math.sqrt(ix * ix + iy * iy)
+            if (pDist > r) continue
 
-            const angle = Math.atan2(dy, dx)
+            const angle = Math.atan2(iy, ix)
             const angleIdx = ((angle / (Math.PI * 2)) * steps + steps) % steps
             const idx0 = Math.floor(angleIdx) % steps
             const idx1 = (idx0 + 1) % steps
             const frac = angleIdx - Math.floor(angleIdx)
             const shapeR = lerp(cluster.shapeSeed[idx0], cluster.shapeSeed[idx1], frac)
 
-            if (dist > r * shapeR) continue
+            if (pDist > r * shapeR) continue
 
-            const px = Math.round(cx + dx)
-            const py = Math.round(cy + dy)
+            const px = Math.round(cluster.x + ix)
+            const py = Math.round(cluster.y + iy)
             if (px < 0 || px >= cW || py < 0 || py >= cH) continue
 
-            const falloff = 1 - (dist / (r * shapeR))
+            const falloff = 1 - (pDist / (r * shapeR))
             const alpha = cluster.alpha * (falloff * falloff * 1.25) * cfg.intensity
 
             const colorMix = seededRandom(px * 0.1 + py * 0.13 + cluster.phase)
@@ -267,14 +315,12 @@ export default function InteractiveTechBackground({
         }
       }
 
-      frameRef.current++
       animId = requestAnimationFrame(render)
     }
 
     animId = requestAnimationFrame(render)
-
     return () => cancelAnimationFrame(animId)
-  }, [cfg, draw])
+  }, [cfg])
 
   return (
     <div

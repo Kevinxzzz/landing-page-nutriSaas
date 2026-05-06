@@ -1,124 +1,191 @@
 @use '../../styles/variables' as *;
 @use '../../styles/mixins' as *;
 
-.differentials {
+.differentials-v2 {
   @include section;
-  background: $color-bg-alt;
+  background: $white;
+  position: relative;
+  overflow: hidden;
   border-top: 1px solid $color-border;
   border-bottom: 1px solid $color-border;
 
-  &__inner { @include container; }
-
-  &__header {
-    @include section-header;
-  }
-
-  &__badge { @include badge; }
-
-  &__title {
-    @include heading-2;
-    text-wrap: balance;
-    em { @include text-gradient-green; font-style: normal; }
+  &__inner {
+    @include container;
   }
 
   &__layout {
     display: grid;
-    grid-template-columns: 1.1fr 1fr;
-    gap: $space-6;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: $space-16;
+    align-items: center;
 
-    @include bp-max(lg) { grid-template-columns: 1fr; }
-  }
-
-  // Featured big card
-  &__featured {
-    @include card;
-    padding: $space-10;
-    border-top: 3px solid $color-primary;
-    @include flex(column, flex-start, flex-start, $space-6);
-    transition: $transition-base;
-
-    &:hover { box-shadow: $shadow-xl; }
-  }
-
-  &__featured-badge { @include badge; }
-
-  &__featured-title {
-    @include heading-3;
-    em { @include text-gradient-green; font-style: normal; }
-  }
-
-  &__featured-desc {
-    font-size: $text-base;
-    color: $color-text-3;
-    line-height: $lh-relaxed;
-  }
-
-  &__featured-list {
-    @include flex(column, flex-start, flex-start, $space-3);
-    width: 100%;
-  }
-
-  &__featured-item {
-    @include flex(row, center, flex-start, $space-3);
-    font-size: $text-sm;
-    color: $color-text-2;
-  }
-
-  &__featured-check {
-    width: 22px;
-    height: 22px;
-    border-radius: $radius-full;
-    background: $color-badge-bg;
-    border: 1.5px solid $color-badge-border;
-    @include flex-center;
-    font-size: 11px;
-    color: $color-primary;
-    font-weight: $fw-bold;
-    flex-shrink: 0;
-  }
-
-  // Right cards stack
-  &__cards {
-    @include flex(column, stretch, flex-start, $space-4);
-  }
-
-  &__card {
-    @include card;
-    padding: $space-5;
-    @include flex(row, flex-start, flex-start, $space-4);
-    transition: $transition-base;
-
-    &:hover {
-      transform: translateY(-4px);
-      box-shadow: $shadow-lg;
-      border-color: $emerald-200;
+    @include bp-max(lg) {
+      grid-template-columns: 1fr;
+      gap: $space-12;
     }
   }
 
-  &__card-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: $radius-xl;
-    background: $color-badge-bg;
-    border: 1.5px solid $color-badge-border;
-    @include flex-center;
-    font-size: 1.25rem;
-    flex-shrink: 0;
+  // ---- Content (Left) ----
+  &__header {
+    margin-bottom: $space-10;
+    @include bp-max(lg) { text-align: center; }
   }
 
-  &__card-body {
-    @include flex(column, flex-start, flex-start, $space-1);
+  &__badge {
+    @include badge;
+    display: inline-flex;
+    align-items: center;
+    gap: $space-2;
+    background: $gray-50;
+    color: $emerald-600;
+
+    svg { color: $emerald-500; }
+  }
+
+  &__title {
+    @include heading-2;
+    margin: $space-4 0;
+    line-height: 1.1;
+
+    span {
+      @include text-gradient-green;
+    }
+  }
+
+  &__subtitle {
+    font-size: $text-lg;
+    color: $gray-500;
+    line-height: 1.6;
+    max-width: 480px;
+    @include bp-max(lg) { margin: 0 auto; }
+  }
+
+  &__list {
+    @include flex(column, flex-start, flex-start, $space-4);
+    margin-bottom: $space-10;
+    padding: 0;
+    list-style: none;
+
+    @include bp-max(lg) { align-items: center; width: 100%; }
+  }
+
+  &__list-item {
+    @include flex(row, center, flex-start, $space-3);
+    font-size: $text-base;
+    font-weight: 600;
+    color: $gray-700;
+    transition: transform 0.3s ease;
+
+    &:hover { transform: translateX(8px); }
+  }
+
+  &__list-icon {
+    width: 24px;
+    height: 24px;
+    background: rgba($emerald-500, 0.1);
+    color: $emerald-600;
+    border-radius: $radius-full;
+    @include flex-center;
+    font-size: 12px;
+  }
+
+  &__cta-link {
+    @include flex(row, center, flex-start, $space-2);
+    font-weight: 700;
+    color: $gray-900;
+    font-size: $text-base;
+    text-decoration: none;
+    transition: all 0.3s ease;
+
+    svg { 
+      transition: transform 0.3s ease; 
+      color: $emerald-600;
+    }
+
+    &:hover {
+      color: $emerald-600;
+      svg { transform: translateX(5px); }
+    }
+
+    @include bp-max(lg) { justify-content: center; }
+  }
+
+  // ---- Grid (Right) ----
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $space-6;
+
+    @include bp-max(sm) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__card {
+    position: relative;
+    background: $gray-50;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: $radius-2xl;
+    padding: $space-8;
+    overflow: hidden;
+    transition: all 0.4s $ease-default;
+
+    &:hover {
+      background: $white;
+      border-color: rgba(0, 0, 0, 0.1);
+      box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.08);
+
+      .differentials-v2__card-decoration {
+        opacity: 0.08;
+        transform: scale(1.1) rotate(5deg);
+      }
+    }
+
+    @media (max-width: 480px) {
+      padding: $space-6;
+    }
+
+    // Color variations
+    &--emerald { .differentials-v2__card-icon { background: rgba($emerald-500, 0.1); color: $emerald-600; } }
+    &--blue { .differentials-v2__card-icon { background: rgba(59, 130, 246, 0.1); color: #2563eb; } }
+    &--amber { .differentials-v2__card-icon { background: rgba(245, 158, 11, 0.1); color: #d97706; } }
+    &--green { .differentials-v2__card-icon { background: rgba($green-500, 0.1); color: $green-600; } }
+  }
+
+  &__card-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: $radius-xl;
+    @include flex-center;
+    font-size: 1.5rem;
+    margin-bottom: $space-5;
+    transition: transform 0.3s $ease-spring;
   }
 
   &__card-title {
-    font-size: $text-base;
-    font-weight: $fw-bold;
-    color: $color-text;
+    font-size: $text-lg;
+    font-weight: 800;
+    color: $gray-900;
+    margin-bottom: $space-2;
+    letter-spacing: -0.01em;
   }
 
   &__card-desc {
     font-size: $text-sm;
-    color: $color-text-3;
-    line-height: $lh-normal;
+    color: $gray-500;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__card-decoration {
+    position: absolute;
+    right: -20px;
+    bottom: -20px;
+    color: $gray-900;
+    opacity: 0.03;
+    pointer-events: none;
+    transition: all 0.6s ease;
+    z-index: 0;
   }
 }

@@ -47,14 +47,13 @@ export default function Hero() {
           </h1>
 
           <p className="hero__subheading">
-            O NutriSaaS centraliza pacientes, agendamentos, prontuários eletrônicos,
-            avaliações e exames — tudo num só lugar. Feito para nutricionistas que
-            querem resultados reais, sem perder tempo.
+            Centralize agenda, prontuário eletrônico, anamnese e exames em uma única plataforma. 
+            Otimize seus atendimentos e entregue mais resultados para seus pacientes com o NutriSaaS.
           </p>
 
           <div className="hero__actions">
             <a href="#teste-gratis" className="hero__btn-primary" id="hero-cta-primary">
-              Começar gratuitamente →
+              Testar Grátis por 14 Dias →
             </a>
             <a href="#como-funciona" className="hero__btn-secondary" id="hero-cta-demo">
               Ver demonstração
